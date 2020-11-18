@@ -25,3 +25,25 @@ La librería de fusión BSEC se ha conceptualizado para proporcionar un procesam
 - Pronóstico del tiempo.
 - Aplicaciones sanitarias.
 - Indicación de velocidad vertical (Por ejemplo velocidad de subida / bajada).
+
+### Plataformas compatibles
+
+La librería BSEC es compatible con MCU de 8, 16 y 32 bits.
+
+### Binarios disponibles para descargar: 
+
+| Platform | Compiler | ROM (BSEC) | ROM (BSEC lite*) | RAM  | TYPE |
+|----------|----------|------------|------------------|------|------|
+| Cortex-ARM | ARMCC | 19-20k | 12-13k | 1k | Cortex-M0, M0+, M3, M4, M4_FPU, M7 |
+| Cortex-ARM | GCC | 20-22k | 12-14k | 1k | Cortex-M0, M0+, M3, M4, M4_FPU, M7 |
+| Cortex-ARM | IAR | 20k | 12-13k | 1k | Cortex-M0, M0+, M3, M4, M4_FPU, M7 |
+| Cortex-A* | GCC | 21k | 13k | 1k | Cortex-A7 |
+| AVR_8bit | AVR-GCC | 42k | 25 | 1k | MegaAVR, XMEGA |
+| AVR_32bit | AVR-GCC | 24k | 13k | 1k | 32-bit AVR UC3 |
+| ESP8266 | xtensa-lx106-elf-gcc | 28k | 17k | 1k | ESP8266 |
+| ESP32 | xtensa-esp32-elf-gcc | 24k | 14k | 1k | ESP32 |
+| MSP430 | msp430-elf-gcc | 34k | 20k | 1k | MSP430 |
+| Android system-x86 | gcc | 39-49k | 22-26k | 1k | x86, x86_64 |
+| Android system-arm | gcc | 21-38k | 13-19k | 1k | arm, arm64 |
+| Raspberry PI 0 linux | arm-linux-gnueabihf-gcc | 71k | 56k | 1k | armv6-32bits |
+| Raspberry PI3 linux | arm-linux-gnueabihf-gcc | 72k | 57k | 1k | armv8-a-64bits |
