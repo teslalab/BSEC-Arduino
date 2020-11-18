@@ -47,3 +47,19 @@ La librería BSEC es compatible con MCU de 8, 16 y 32 bits.
 | Android system-arm | gcc | 21-38k | 13-19k | 1k | arm, arm64 |
 | Raspberry PI 0 linux | arm-linux-gnueabihf-gcc | 71k | 56k | 1k | armv6-32bits |
 | Raspberry PI3 linux | arm-linux-gnueabihf-gcc | 72k | 57k | 1k | armv8-a-64bits |
+
+La información anterior sobre el tamaño de la librería no incluye dependencias adicionales basadas en el proyecto y la plataforma integrada.
+
+# Instalación 
+
+## 1. Instale el IDE de Arduino más reciente
+
+A partir de esta publicación, la última versión de Arduino IDE 1.8.13 se puede descargar desde este [link](https://www.arduino.cc/download_handler.php)
+
+## 2. Instale la librería BSEC
+
+Descargue la librería como zip e impórtela en el IDE de Arduino. Consulte [esta](https://www.arduino.cc/en/Guide/Libraries) guía sobre como importar librerías.
+
+## 3. Modifique el archivo platform.txt
+
+Si ya utilizado el código de ejemplo anterior y la guía de hackeo, elimine la marca `-libalgobsec`
