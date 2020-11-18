@@ -60,7 +60,7 @@ A partir de esta publicación, la última versión de Arduino IDE 1.8.13 se pued
 
 Descargue la librería como zip e impórtela en el IDE de Arduino. Consulte [esta](https://www.arduino.cc/en/Guide/Libraries) guía sobre como importar librerías.
 
-## 3. Modifique el archivo platform.txt
+## 3. Modifique el archivo platform.txt (ESP8266)
 
 Si ya utilizado el código de ejemplo anterior y la guía de hackeo, elimine la marca `-libalgobsec` en el archivo platform.txt y haga referencia al archivo `complier.c.elf.extra_flags`.
 
@@ -79,6 +79,25 @@ compiler.libraries.ldflags=
 ```
 y agréguelo como en los siguientes ejemplos 
 
+## 3.1 Modifique el archivo platform.txt (ESP32)
+
+Si ya utilizado el código de ejemplo anterior y la guía de hackeo, elimine la marca `-libalgobsec` en el archivo platform.txt y haga referencia al archivo `complier.c.elf.extra_flags`.
+
+El arduino-builder estándar ahora pasa las banderas del enlazador debajo `compiler.libraries.ldflags`. La mayoría de los archivos `platform.txt` no incluyen esta nueva variable opcional. Por lo tanto, deberá declarar el valor predeterminado de esta variable y agregarlo al final del tutorial. Se recomienda declararlo en la siguiente sección como se ve a continuación.
+
+```
+# These can be overridden in platform.local.txt
+compiler.c.extra_flags=
+compiler.c.elf.extra_flags=
+compiler.S.extra_flags=
+compiler.cpp.extra_flags=
+compiler.ar.extra_flags=
+compiler.objcopy.eep.extra_flags=
+compiler.elf2hex.extra_flags=
+compiler.libraries.ldflags=
+```
+y agréguelo como en los siguientes ejemplos 
+
 ### ESP8266 núcleo del foro de la comunidad ESP8266
 Línea original 
 
@@ -91,6 +110,19 @@ Debe reemplazar por la siguiente línea
 ```
 ## Combine gc-sections, archives, and objects
 recipe.c.combine.pattern="{compiler.path}{compiler.c.elf.cmd}" {build.exception_flags} -Wl,-Map "-Wl,{build.path}/{build.project_name}.map" {compiler.c.elf.flags} {compiler.c.elf.extra_flags} -o "{build.path}/{build.project_name}.elf" -Wl,--start-group {object_files} "{archive_file_path}" {compiler.c.elf.libs} {compiler.libraries.ldflags} -Wl,--end-group  "-L{build.path}"
+```
+### ESP32 núcleo del foro de la comunidad ESP32
+Línea original 
+
+```
+## Combine gc-sections, archives, and objects
+recipe.c.combine.pattern="{compiler.path}{compiler.c.elf.cmd}" {compiler.c.elf.flags} {compiler.c.elf.extra_flags} {compiler.libraries.ldflags} -Wl,--start-group {object_files} "{archive_file_path}" {compiler.c.elf.libs} -Wl,--end-group -Wl,-EL -o "{build.path}/{build.project_name}.elf"
+```
+Debe reemplazar por la siguiente línea
+
+```
+## Combine gc-sections, archives, and objects
+recipe.c.combine.pattern="{compiler.path}{compiler.c.elf.cmd}" {compiler.c.elf.flags} {compiler.c.elf.extra_flags} -Wl,--start-group {object_files} "{archive_file_path}" {compiler.c.elf.libs} {compiler.libraries.ldflags} -Wl,--end-group -Wl,-EL -o "{build.path}/{build.project_name}.elf"
 ```
 
 ## 4. Verifique y cargue el código de ejemplo
