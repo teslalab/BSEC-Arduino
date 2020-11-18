@@ -62,4 +62,40 @@ Descargue la librería como zip e impórtela en el IDE de Arduino. Consulte [est
 
 ## 3. Modifique el archivo platform.txt
 
-Si ya utilizado el código de ejemplo anterior y la guía de hackeo, elimine la marca `-libalgobsec`
+Si ya utilizado el código de ejemplo anterior y la guía de hackeo, elimine la marca `-libalgobsec` en el archivo platform.txt y haga referencia al archivo `complier.c.elf.extra_flags`.
+
+El arduino-builder estándar ahora pasa las banderas del enlazador debajo `compiler.libraries.ldflags`. La mayoría de los archivos `platform.txt` no incluyen esta nueva variable opcional. Por lo tanto, deberá declarar el valor predeterminado de esta variable y agregarlo al final del tutorial. Se recomienda declararlo en la siguiente sección como se ve a continuación.
+
+```
+# These can be overridden in platform.local.txt
+compiler.c.extra_flags=
+compiler.c.elf.extra_flags=
+#compiler.c.elf.extra_flags=-v
+compiler.cpp.extra_flags=
+compiler.S.extra_flags=
+compiler.ar.extra_flags=
+compiler.elf2hex.extra_flags=
+compiler.libraries.ldflags=
+```
+y agréguelo como en los siguientes ejemplos 
+
+### ESP8266 núcleo del foro de la comunidad ESP8266
+Línea original 
+
+```
+## Combine gc-sections, archives, and objects
+recipe.c.combine.pattern="{compiler.path}{compiler.c.elf.cmd}" {build.exception_flags} -Wl,-Map "-Wl,{build.path}/{build.project_name}.map" {compiler.c.elf.flags} {compiler.c.elf.extra_flags} -o "{build.path}/{build.project_name}.elf" -Wl,--start-group {object_files} "{archive_file_path}" {compiler.c.elf.libs} -Wl,--end-group  "-L{build.path}"
+```
+Debe reemplazar por la siguiente línea
+
+```
+## Combine gc-sections, archives, and objects
+recipe.c.combine.pattern="{compiler.path}{compiler.c.elf.cmd}" {build.exception_flags} -Wl,-Map "-Wl,{build.path}/{build.project_name}.map" {compiler.c.elf.flags} {compiler.c.elf.extra_flags} -o "{build.path}/{build.project_name}.elf" -Wl,--start-group {object_files} "{archive_file_path}" {compiler.c.elf.libs} {compiler.libraries.ldflags} -Wl,--end-group  "-L{build.path}"
+```
+
+## 4. Verifique y cargue el código de ejemplo
+Inicie o reinicie el IDE de Arduino, abra el código de ejemplo que se encuentra en `File>Examples>Bsec software library>Basic`
+Seleccione su tarjeta y el puerto COM correcto, suba el ejemplo y abra el monitor serial, debería ver texto en la terminal.
+
+Tenga en cuenta que no todos los núcleos son compatibles. En estos casos, los ejemplos se pueden encontrar en `File>Examples>INCOMPATIBLE>Bsec software library>Basic`
+
